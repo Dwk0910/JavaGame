@@ -11,8 +11,8 @@ public class CharacterAnimation {
     private long term;
     private long lastReturnedTime;
 
-    public CharacterAnimation(List<TextureRegion> animation, long frameterm) {
-        this.frames = animation;
+    public CharacterAnimation(List<TextureRegion> frames, long frameterm) {
+        this.frames = frames;
         this.term = frameterm;
     }
 

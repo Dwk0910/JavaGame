@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -22,12 +23,16 @@ import org.neatore.javagame.object.story.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class GameMap {
     public boolean visible = true;
 
     public List<MapObject> objects = new ArrayList<>();
-    public boolean followCamera = false;
+    private boolean followCamera = false;
+    private boolean staticCamera = false;
+
+    private float cOffsetX, cOffsetY;
 
     public Character followTarget;
 
@@ -83,6 +88,67 @@ public abstract class GameMap {
                 objects.add(new Block(px * unitScale, py * unitScale, pw * unitScale, ph * unitScale));
             }
         }
+
+        // setMapVisiblity()에서 사용
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fill();
+        this.blackTexture = new Texture(pixmap);
+        pixmap.dispose();
+    }
+
+    public void setCameraOffset(float cameraOffsetX, float cameraOffsetY) {
+        if (staticCamera) {
+            this.cOffsetX = cameraOffsetX;
+            this.cOffsetY = cameraOffsetY;
+
+            OrthographicCamera camera = JavaGame.camera;
+            camera.position.set(cameraOffsetX, cameraOffsetY, 0);
+            camera.update();
+        }
+    }
+
+    private Texture blackTexture;
+    private boolean completed = false;
+    private float alphaZ = 0;
+    private float alphaO = 1;
+    private final Matrix4 orthoMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    private final Consumer<Boolean> visiblitychange_draw = (tOn) -> {
+            if (blackTexture == null) return;
+            JavaGame game = JavaGame.getInstance();
+            game.batch.setColor(1, 1, 1, tOn ? alphaO : alphaZ);
+            Matrix4 projMatrix = game.batch.getProjectionMatrix();
+            game.batch.setProjectionMatrix(orthoMatrix);
+            game.batch.draw(blackTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            game.batch.setProjectionMatrix(projMatrix);
+            game.batch.setColor(Color.WHITE);
+    };
+
+    /** Set Visiblity with Fade In-Out Animation (You should call this method every frame) **/
+    public void setMapVisiblity(boolean visiblity) {
+        // Speed of animation
+        float alphaAmount = 2f;
+
+        if ((alphaO <= 0 && visiblity) || (alphaZ >= 1 && !visiblity)) completed = false;
+        if (!completed) {
+            if (visiblity) {
+                // 페이드 인 애니메이션 구현을 위해서는 미리 맵이 켜져 있어야 함.
+                this.visible = true;
+
+                // OFF -> ON
+                visiblitychange_draw.accept(true);
+                alphaO -= (alphaAmount * Gdx.graphics.getDeltaTime());
+                if (alphaO <= 0) completed = true;
+            } else {
+                // ON -> OFF
+                visiblitychange_draw.accept(false);
+                alphaZ += (alphaAmount * Gdx.graphics.getDeltaTime());
+                if (alphaZ >= 1) {
+                    this.visible = false;
+                    completed = true;
+                }
+            }
+        }
     }
 
     public void initializePlayerPosition() {
@@ -92,22 +158,52 @@ public abstract class GameMap {
 
         float x = properties.get("x", Float.class);
         float y = properties.get("y", Float.class);
-        JavaGame.player.setLocation(x * unitScale, y * unitScale);
+        JavaGame.player.setLocation(x * unitScale - (JavaGame.player.WIDTH / 2f), y * unitScale);
 
-        // Set camera position to player position
-        JavaGame.camera.position.set(JavaGame.player.x + (JavaGame.player.WIDTH / 2), JavaGame.player.y, 0);
-        JavaGame.camera.update();
+        if (staticCamera) {
+            OrthographicCamera camera = JavaGame.camera;
+            camera.position.set(0, 0, 0);
+            camera.update();
+        } else {
+            // Set camera position to player position
+            JavaGame.camera.position.set(JavaGame.player.x + (JavaGame.player.WIDTH / 2), JavaGame.player.y, 0);
+            JavaGame.camera.update();
+        }
     }
 
     public void setFollowCamera(Character followTarget) {
         this.followTarget = followTarget;
+        this.staticCamera = false;
         followCamera = true;
+    }
+
+    public void setStaticCamera() {
+        this.followCamera = false;
+        this.followTarget = null;
+        this.staticCamera = true;
     }
 
     public void update() {
         OrthographicCamera camera = JavaGame.camera;
         if (followCamera && followTarget != null && camera != null) {
-            camera.position.set(followTarget.x + (followTarget.WIDTH / 2), followTarget.y, 0);
+            float targetX = followTarget.x + (followTarget.WIDTH / 2);
+            float targetY = followTarget.y + (followTarget.HEIGHT / 2);
+
+            float viewportWidth = camera.viewportWidth * camera.zoom;
+            float viewportHeight = camera.viewportHeight * camera.zoom;
+
+            float minX = viewportWidth / 2f;
+            float minY = viewportHeight / 2f;
+            float maxX = width - viewportWidth / 2f;
+            float maxY = height - viewportHeight / 2f;
+
+            float cX = Math.max(minX, Math.min(targetX, maxX));
+            float cY = Math.max(minY, Math.min(targetY, maxY));
+
+            camera.position.set(cX, cY, 0);
+            camera.update();
+        } else if (camera != null) {
+            camera.position.set(cOffsetX, cOffsetY, 0);
             camera.update();
         }
     }

@@ -6,10 +6,12 @@ import org.neatore.javagame.object.map.Interactable;
 import org.neatore.javagame.object.map.MapObject;
 import org.neatore.javagame.object.story.Scene;
 
+import java.util.function.Supplier;
+
 public class GoTo extends MapObject implements Interactable {
     private final Scene scene;
-    private final GameMap target;
-    public GoTo(Scene scene, GameMap currentMap, String objName, GameMap target) {
+    private final Supplier<GameMap> target;
+    public GoTo(Scene scene, GameMap currentMap, String objName, Supplier<GameMap> target) {
         super(scene, currentMap, objName);
         this.scene = scene;
         this.target = target;
@@ -17,6 +19,7 @@ public class GoTo extends MapObject implements Interactable {
 
     @Override
     public void interact(ControllableCharacter context) {
-        scene.changeMap(target);
+        GameMap map = target.get();
+        scene.changeMap(map);
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="8">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="96" tileheight="96" infinite="0" nextlayerid="4" nextobjectid="18">
  <layer id="1" name="Tile Layer 1" width="15" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -15,16 +15,22 @@
 </data>
  </layer>
  <imagelayer id="2" name="Image Layer 1">
-  <image source="lobby.png" width="816" height="624"/>
+  <image source="lobby.png" width="1440" height="960"/>
  </imagelayer>
  <objectgroup id="3" name="system">
-  <object id="1" name="block" x="48" y="288" width="144" height="96"/>
-  <object id="2" name="block" x="456" y="288.182" width="96" height="94.9091"/>
-  <object id="3" name="block" x="288" y="144" width="144" height="59.4545"/>
-  <object id="4" name="block" x="48" y="0" width="624" height="96"/>
-  <object id="5" name="teleport" x="0" y="144" width="48" height="144"/>
-  <object id="6" name="teleport2" x="672" y="144" width="48" height="144"/>
-  <object id="7" name="playerstart" x="240" y="480">
+  <object id="1" name="block" x="0" y="0" width="1440" height="192"/>
+  <object id="2" name="block" x="0" y="192" width="96" height="96"/>
+  <object id="3" name="block" x="1344" y="192" width="96" height="96"/>
+  <object id="6" name="block" x="576" y="288" width="288" height="119.5"/>
+  <object id="7" name="block" x="911" y="576.5" width="194.5" height="189.5"/>
+  <object id="8" name="block" x="96" y="576" width="288" height="192"/>
+  <object id="9" name="block" x="0" y="576" width="96" height="384"/>
+  <object id="10" name="block" x="1344" y="576" width="96" height="384"/>
+  <object id="11" name="block" x="576" y="864" width="768" height="96"/>
+  <object id="12" name="block" x="96" y="864" width="288" height="96"/>
+  <object id="14" name="teleport" x="0" y="288" width="96" height="288"/>
+  <object id="15" name="teleport2" x="1344" y="288" width="96" height="288"/>
+  <object id="17" name="playerstart" x="479.667" y="938">
    <point/>
   </object>
  </objectgroup>

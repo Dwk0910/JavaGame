@@ -55,6 +55,7 @@ public class BasicTransition {
         Matrix4 projMatrix = batch.getProjectionMatrix();
         batch.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
+        // restore
         batch.draw(blackTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(projMatrix);
         batch.setColor(Color.WHITE);
@@ -66,7 +67,7 @@ public class BasicTransition {
             }
         }
 
-        // restore
+        // edit alpha
         if (!transformed) {
             if (alpha > 1) {
                 if (targetScene != null) JavaGame.changeSceneDirectly(targetScene);

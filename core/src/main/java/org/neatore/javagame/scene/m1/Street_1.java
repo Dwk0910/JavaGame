@@ -16,7 +16,6 @@ public class Street_1 extends GameMap {
         // ** Interative Object && Impassable Object 등록
         // 실제 좌표 (Tiled 맵 좌표)로 저장
         // x, y, width, height
-        objects.add(new GoTo(scene, this, "teleport", new Street_2(scene)));
+        objects.add(new GoTo(scene, this, "teleport", () -> new Street_2(scene)));
     }
 }
-
