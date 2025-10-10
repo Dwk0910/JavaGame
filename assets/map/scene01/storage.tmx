@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="10" height="9" tilewidth="48" tileheight="48" infinite="0" nextlayerid="4" nextobjectid="12">
+ <layer id="1" name="Tile Layer 1" width="10" height="9">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="storage.png" width="480" height="432"/>
+ </imagelayer>
+ <objectgroup id="3" name="system">
+  <object id="1" name="block" x="0" y="0" width="48" height="144"/>
+  <object id="2" name="block" x="0" y="288" width="48" height="144"/>
+  <object id="3" name="block" x="48" y="384" width="144" height="48"/>
+  <object id="4" name="block" x="384" y="384" width="96" height="48"/>
+  <object id="5" name="block" x="48" y="48" width="144" height="96"/>
+  <object id="6" name="block" x="432" y="48" width="48" height="96"/>
+  <object id="7" name="block" x="48" y="0" width="432" height="96"/>
+  <object id="10" name="teleport" x="0" y="144" width="24.3333" height="144"/>
+  <object id="11" name="playerstart" x="37" y="215.333">
+   <point/>
+  </object>
+ </objectgroup>
+</map>
