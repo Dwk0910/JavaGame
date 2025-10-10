@@ -20,8 +20,10 @@ public abstract class Scene {
     }
 
     public void changeMapDirectly(GameMap map) {
+        if (this.map != null) this.map.dispose();
         this.map = map;
         map.initializePlayerPosition();
+        map.renderer.setView(JavaGame.camera);
     }
 
     public void changeMap(GameMap map) {

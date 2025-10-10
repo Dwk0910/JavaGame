@@ -47,9 +47,14 @@ public class JavaGame extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // **PUBLIC RESOURCES**
         instance = this;
         batch = new SpriteBatch();
 
+        // Scene Transitions
+        transition = new BasicTransition(Color.BLACK);
+
+        // ** BINDING **
         // player binding
         player = new Player();
         player.direction = Direction.RIGHT;
@@ -70,9 +75,6 @@ public class JavaGame extends ApplicationAdapter {
         // User Interface
         uiStage = new Stage(new ScreenViewport(), batch);
         uiSkin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
-
-        // Scene Transitions
-        transition = new BasicTransition(Color.BLACK);
     }
 
     @Override

@@ -10,6 +10,6 @@ public class Street_2 extends GameMap {
     public Street_2(Scene scene) {
         super(scene, "map/scene01/street_2.tmx");
         setFollowCamera(JavaGame.player);
-        objects.add(new GoTo(scene, this, "teleport", new Lobby(scene)));
+        objects.add(new GoTo(scene, this, "teleport", () -> new Lobby(scene)));
     }
 }

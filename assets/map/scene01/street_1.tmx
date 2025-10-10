@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="48" tileheight="48" infinite="0" nextlayerid="8" nextobjectid="13">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="96" tileheight="96" infinite="0" nextlayerid="9" nextobjectid="23">
  <layer id="1" name="Tile Layer 1" width="40" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -35,22 +35,20 @@
 </data>
  </layer>
  <imagelayer id="5" name="Image Layer 1">
-  <image source="street_1.png" width="1920" height="1440"/>
+  <image source="street_1.png" width="3840" height="2880"/>
  </imagelayer>
- <objectgroup id="7" name="system">
-  <object id="1" name="block" x="0" y="1.33333" width="912" height="285.333"/>
-  <object id="2" name="block" x="912" y="1.33333" width="192" height="264"/>
-  <object id="3" name="block" x="1105.33" y="-1.33333" width="141.333" height="288"/>
-  <object id="4" name="block" x="1200" y="288" width="47.75" height="48"/>
-  <object id="5" name="block" x="-2" y="490" width="914" height="946"/>
-  <object id="6" name="block" x="911.333" y="490.667" width="337.333" height="324.667"/>
-  <object id="7" name="block" x="912.667" y="1173.33" width="383.333" height="266"/>
-  <object id="8" name="block" x="1296" y="1010" width="625" height="430"/>
-  <object id="9" name="block" x="1584" y="0" width="336" height="1008"/>
-  <object id="10" name="teleport" x="1248" y="0" width="336" height="48"/>
-  <object id="11" name="playerstart" x="48" y="384">
+ <objectgroup id="8" name="system">
+  <object id="13" name="block" x="-3.0303" y="993.939" width="1827.03" height="1886.06"/>
+  <object id="14" name="block" x="0" y="0" width="2496" height="576"/>
+  <object id="15" name="block" x="2400" y="576" width="96" height="96"/>
+  <object id="16" name="block" x="1824" y="994" width="672" height="638"/>
+  <object id="17" name="block" x="1827.27" y="2351.52" width="764.727" height="528.485"/>
+  <object id="18" name="block" x="2592" y="2016" width="1248" height="864"/>
+  <object id="19" name="block" x="3168" y="0" width="672" height="2016"/>
+  <object id="20" name="block" x="2016" y="1824" width="288" height="288"/>
+  <object id="21" name="teleport" x="2496" y="0" width="672" height="96"/>
+  <object id="22" name="playerstart" x="46.6667" y="829.333">
    <point/>
   </object>
-  <object id="12" name="block" x="1008" y="912" width="144" height="144"/>
  </objectgroup>
 </map>

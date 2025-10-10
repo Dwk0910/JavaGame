@@ -15,7 +15,7 @@ public class DelayedTask {
             if (loop || !isStarted) {
                 isStarted = true;
                 runnable.run();
-                this.lastTime = System.currentTimeMillis();
+                if (!loop) this.lastTime = System.currentTimeMillis();
             }
         }
     }

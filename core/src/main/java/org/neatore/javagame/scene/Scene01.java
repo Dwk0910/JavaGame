@@ -20,14 +20,14 @@ public class Scene01 extends Scene {
 
         // Scene instances
         this.areaLabel = new AreaLabel("1903년 3월 12일, 한성부 종로 일대");
-        this.showMapTask = new DelayedTask(() -> map.visible = true);
+        this.showMapTask = new DelayedTask(() -> map.setMapVisiblity(true));
     }
 
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
         areaLabel.show();
-        showMapTask.delayStart(5000L, false);
+        showMapTask.delayStart(5000L, true);
     }
 
     @Override
