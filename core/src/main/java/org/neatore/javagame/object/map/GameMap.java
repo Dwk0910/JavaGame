@@ -21,6 +21,8 @@ import org.neatore.javagame.character.Character;
 import org.neatore.javagame.object.map.obj.Block;
 import org.neatore.javagame.object.story.Scene;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -151,9 +153,10 @@ public abstract class GameMap {
         }
     }
 
-    public void initializePlayerPosition() {
-        MapLayer systemLayer = map.getLayers().get("system");
-        com.badlogic.gdx.maps.MapObject startPoint = systemLayer.getObjects().get("playerstart");
+    /** Move player to target position. If `to` is null, move player to map start position **/
+    public void initializePlayerPosition(@Nullable String to) {
+        final MapLayer systemLayer = map.getLayers().get("system");
+        com.badlogic.gdx.maps.MapObject startPoint = systemLayer.getObjects().get(to == null ? "playerstart" : to);
         MapProperties properties = startPoint.getProperties();
 
         float x = properties.get("x", Float.class);
@@ -209,9 +212,8 @@ public abstract class GameMap {
     }
 
     public void render(OrthographicCamera camera) {
+        JavaGame game = JavaGame.getInstance();
         if (!visible) {
-            JavaGame game = JavaGame.getInstance();
-
             Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
             pixmap.setColor(Color.BLACK);
             pixmap.fill();
