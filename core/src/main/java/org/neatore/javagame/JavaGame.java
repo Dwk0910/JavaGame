@@ -121,7 +121,15 @@ public class JavaGame extends ApplicationAdapter {
         List<Renderable> renderables = new ArrayList<>();
         renderables.add(player);
         renderables.addAll(NPCs);
-        renderables.sort((a, b) -> Float.compare(b.y, a.y));
+
+        // Add map objects
+        scene.map.objects.forEach((obj) -> {
+            if (obj instanceof Renderable casted) {
+                renderables.add(casted);
+            }
+        });
+
+        renderables.sort((a, b) -> Float.compare(b.getY(), a.getY()));
         for (Renderable target : renderables) {
             target.render(batch);
         }
