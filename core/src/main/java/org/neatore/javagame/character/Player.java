@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import org.neatore.javagame.object.map.GameMap;
+import org.neatore.javagame.JavaGame;
 import org.neatore.javagame.object.character.CharacterAnimation;
 import org.neatore.javagame.object.character.Direction;
 
@@ -35,10 +35,11 @@ public class Player extends ControllableCharacter {
     private static final int FRAME_WIDTH = 16, FRAME_HEIGHT = 16;
 
     public Player() {
+        JavaGame game = JavaGame.getInstance();
         WIDTH  = 1f;
         HEIGHT = 1f;
 
-        spriteSheet = new Texture("player/player.png");
+        spriteSheet = game.asset.get("player/player.png", Texture.class);
 
         speed = 3.5f;
 
@@ -96,8 +97,8 @@ public class Player extends ControllableCharacter {
     }
 
     @Override
-    public void update(float delta, GameMap map) {
-        super.update(delta, map);
+    public void update() {
+        super.update();
 
         boolean diff;
 
@@ -122,6 +123,7 @@ public class Player extends ControllableCharacter {
         lastDirection = direction;
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         batch.draw(frame, x, y, WIDTH, HEIGHT);
     }
