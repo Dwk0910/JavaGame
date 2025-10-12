@@ -9,6 +9,6 @@ public class Storage extends GameMap {
         super(scene, "map/scene01/storage.tmx");
         setStaticCamera();
         setCameraOffset(7, 5);
-        objects.add(new GoTo(scene, this, "teleport", () -> new Lobby(scene)));
+        objects.add(new GoTo(scene, this, "teleport", () -> new Lobby(scene), "from_storage"));
     }
 }
