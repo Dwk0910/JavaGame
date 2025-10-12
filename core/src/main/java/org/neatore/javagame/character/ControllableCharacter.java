@@ -82,7 +82,7 @@ public abstract class ControllableCharacter extends Character {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) System.out.println("x : " + x + ", y : " + y);
+//        if (Gdx.input.isKeyPressed(Input.Keys.F)) System.out.println("x : " + x + ", y : " + y);
 
         boolean negative = false;
         float targetX = x + (velocity.x * speed * delta), targetY = y + (velocity.y * speed * delta);
