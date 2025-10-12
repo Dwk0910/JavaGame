@@ -1,7 +1,13 @@
 package org.neatore.javagame.character;
 
-public class Character {
-    public float x, y, width, height;
+import org.neatore.javagame.object.character.Direction;
+import org.neatore.javagame.object.map.Renderable;
+
+public abstract class Character extends Renderable {
     public float speed;
     public float WIDTH, HEIGHT;
+    public boolean isMoving;
+    public Direction direction;
+
+    public abstract void update();
 }

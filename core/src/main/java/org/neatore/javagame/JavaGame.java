@@ -1,11 +1,13 @@
 package org.neatore.javagame;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,12 +16,22 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-// ** SCENE **
+// Character
+import org.neatore.javagame.character.Character;
+import org.neatore.javagame.character.NPC;
 import org.neatore.javagame.character.Player;
 import org.neatore.javagame.object.character.Direction;
+
+// ** SCENE **
+import org.neatore.javagame.object.map.Renderable;
 import org.neatore.javagame.object.story.Scene;
 import org.neatore.javagame.scene.Scene01;
+
+// Utility
 import org.neatore.javagame.util.animation.transition.BasicTransition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JavaGame extends ApplicationAdapter {
     public static JavaGame instance;
@@ -37,13 +49,15 @@ public class JavaGame extends ApplicationAdapter {
 
     // Asset Classes
     public static Player player;
+    public static List<NPC> NPCs;
 
     // User Interface
     public Stage uiStage;
     public Skin uiSkin;
 
-    // Scene transitions
+    // Utility
     public static BasicTransition transition;
+    public AssetManager asset;
 
     @Override
     public void create() {
@@ -51,13 +65,23 @@ public class JavaGame extends ApplicationAdapter {
         instance = this;
         batch = new SpriteBatch();
 
-        // Scene Transitions
+        // Utility
         transition = new BasicTransition(Color.BLACK);
+        asset = new AssetManager();
+
+        // Load assets
+        asset.load("player/player.png", Texture.class);
+        while (!asset.update()) {
+            float progress = asset.getProgress() * 100;
+            System.out.println("Loading assets..." + progress + "%");
+        }
 
         // ** BINDING **
-        // player binding
+        // character binding
         player = new Player();
         player.direction = Direction.RIGHT;
+
+        NPCs = new ArrayList<>();
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(30, 20, camera);
@@ -89,8 +113,19 @@ public class JavaGame extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+        // UPDATE
         update();
-        player.render(batch);
+
+        // Renderable Assets
+        // 에셋들의 y좌표를 정렬, 겹치게 렌더링해서 원근감 표현 (가까우면 나중에 렌더링, 멀면 먼저 렌더링)
+        List<Renderable> renderables = new ArrayList<>();
+        renderables.add(player);
+        renderables.addAll(NPCs);
+        renderables.sort((a, b) -> Float.compare(b.y, a.y));
+        for (Renderable target : renderables) {
+            target.render(batch);
+        }
+
         scene.render(batch);
         transition.draw(Gdx.graphics.getDeltaTime(), batch);
 
@@ -103,7 +138,7 @@ public class JavaGame extends ApplicationAdapter {
 
     public static void changeSceneDirectly(Scene newScene) {
         scene = newScene;
-        scene.map.initializePlayerPosition();
+        scene.map.initializePlayerPosition(null);
     }
 
     public static void changeScene(Scene newScene) {
@@ -111,8 +146,13 @@ public class JavaGame extends ApplicationAdapter {
     }
 
     private void update() {
-        float delta = Gdx.graphics.getDeltaTime();
-        player.update(delta, scene.map);
+        // Characters
+        List<Character> characters = new ArrayList<>();
+        characters.add(player);
+        characters.addAll(NPCs);
+        for (Character character : characters) {
+            character.update();
+        }
     }
 
     @Override
@@ -123,5 +163,6 @@ public class JavaGame extends ApplicationAdapter {
         uiStage.dispose();
         uiSkin.dispose();
         transition.dispose();
+        asset.dispose();
     }
 }
