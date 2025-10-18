@@ -1,5 +1,7 @@
 package org.neatore.javagame.scene.m1;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import org.neatore.javagame.JavaGame;
 import org.neatore.javagame.character.NPC;
 import org.neatore.javagame.object.map.GameMap;
@@ -13,12 +15,25 @@ public class Street_1 extends GameMap {
         scene.map = this;
         setFollowCamera(JavaGame.player);
 
-        // ** Interative Object && Impassable Object 등록
+        // ** Interactive Object && Impassable Object 등록
         // 실제 좌표 (Tiled 맵 좌표)로 저장
         // x, y, width, height
         objects.add(new Go(scene, this, "teleport", () -> new Street_2(scene)));
 
         // Add NPCs
-        JavaGame.NPCs.add(new NPC(this, 10, 20));
+        JavaGame.NPCs.add(new TestNPC(this, 10, 20));
+    }
+}
+
+class TestNPC extends NPC {
+    public TestNPC(GameMap map, float x, float y) {
+        super(map, x, y);
+        JavaGame game = JavaGame.getInstance();
+        spriteSheet = game.asset.get("player/player.png", Texture.class);
+        FRAME_WIDTH = 16;
+        FRAME_HEIGHT = 16;
+        WIDTH = 1f;
+        HEIGHT = 1f;
+        init();
     }
 }
