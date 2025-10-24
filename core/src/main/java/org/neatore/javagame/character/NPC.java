@@ -68,7 +68,7 @@ public abstract class NPC extends Character {
         this.moveTask = true;
         this.moveX = x;
         this.moveY = y;
-        this.moveSpeed = this.speed;
+        this.moveSpeed = (this.speed / 50);
     }
 
     public void move(float x, float y, float speed) {
@@ -79,18 +79,27 @@ public abstract class NPC extends Character {
     }
 
     private void move_() {
-        if (x != moveX) {
+        // 타깃 좌표와의 차이(절대값)가 1 이상인가?
+        if (Math.abs(moveX - x) > 1f) {
             this.isMoving = true;
             // 작으면 왼쪽을 바라보고, 크면 오른쪽을 바라봄
-            if (moveX < x) this.direction = Direction.LEFT;
-            else if (moveX > x) this.direction = Direction.RIGHT;
-            this.x += moveX * moveSpeed;
-        } else if (y != moveY) {
+            if (moveX < x) {
+                this.direction = Direction.LEFT;
+                this.x -= 1 * moveSpeed;
+            } else if (moveX > x) {
+                this.direction = Direction.RIGHT;
+                this.x += 1 * moveSpeed;
+            }
+        } else if (Math.abs(moveY - y) > 1f) {
             this.isMoving = true;
             // 작으면 아래를 바라보고 크면 위를 바라봄
-            if (moveY < y) this.direction = Direction.DOWN;
-            else if (moveY > y) this.direction = Direction.UP;
-            this.y += moveY * moveSpeed;
+            if (moveY < y){
+                this.direction = Direction.DOWN;
+                this.y -= 1 * moveSpeed;
+            } else if (moveY > y) {
+                this.direction = Direction.UP;
+                this.y += 1 * moveSpeed;
+            }
         } else {
             this.moveTask = false;
             this.isMoving = false;
