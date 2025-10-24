@@ -25,6 +25,8 @@ public class BasicTransition {
     private Scene targetScene = null;
     private GameMap targetMap = null;
 
+    private String targetObj = null;
+
     public BasicTransition(Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
@@ -37,6 +39,10 @@ public class BasicTransition {
         this.transformed = false;
         this.targetScene = targetScene;
         this.targetMap = targetMap;
+    }
+
+    public void setTargetObj(@Nullable String obj) {
+        this.targetObj = obj;
     }
 
     public void draw(float delta, SpriteBatch batch) {
@@ -71,7 +77,7 @@ public class BasicTransition {
         if (!transformed) {
             if (alpha > 1) {
                 if (targetScene != null) JavaGame.changeSceneDirectly(targetScene);
-                else JavaGame.scene.changeMapDirectly(targetMap);
+                else JavaGame.scene.changeMapDirectly(targetMap, targetObj);
                 transformed = true;
             } else alpha += (alphaAmount * delta);
         } else alpha -= (alphaAmount * delta);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.math.Vector2;
 
-import org.neatore.javagame.object.map.GameMap;
+import org.neatore.javagame.JavaGame;
 import org.neatore.javagame.object.character.Direction;
 import org.neatore.javagame.object.map.Impassable;
 import org.neatore.javagame.object.map.Interactable;
@@ -18,11 +18,9 @@ import java.util.List;
 public abstract class ControllableCharacter extends Character {
     public Texture texture;
 
-    public Direction direction;
     public float offsetX, offsetY;
 
     public boolean canMove = true;
-    public boolean isMoving = false;
 
     private final Vector2 velocity = new Vector2();
 
@@ -30,11 +28,14 @@ public abstract class ControllableCharacter extends Character {
         if (texture != null) texture.dispose();
     }
 
-    public void update(float delta, GameMap map) {
+    @Override
+    public void update() {
         if (!canMove) return;
 
-        float mapWidth = map.width, mapHeight = map.height;
-        List<MapObject> objects = map.objects;
+        float delta = Gdx.graphics.getDeltaTime();
+
+        float mapWidth = JavaGame.scene.map.width, mapHeight = JavaGame.scene.map.height;
+        List<MapObject> objects = JavaGame.scene.map.objects;
 
         velocity.set(0, 0);
 

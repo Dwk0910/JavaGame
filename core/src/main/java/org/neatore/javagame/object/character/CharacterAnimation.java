@@ -1,7 +1,10 @@
 package org.neatore.javagame.object.character;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterAnimation {
@@ -14,6 +17,56 @@ public class CharacterAnimation {
     public CharacterAnimation(List<TextureRegion> frames, long frameterm) {
         this.frames = frames;
         this.term = frameterm;
+    }
+
+    /*
+    Auto-bindable Animation File :
+    static_down (3 frames) OOO
+    static_side[RIGHT] (3 frames) OOO
+    static_up (3 frames)   OOO
+    moving_down (3 frames) OOO
+    moving_side[RIGHT] (3 frames) OOO
+    moving_up (3 frames)   OOO
+     */
+    public static @NotNull CharacterAnimation generate(Texture spriteSheet, int y, int width, int height, long term) {
+        List<TextureRegion> frames = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            frames.add(new TextureRegion(spriteSheet, width * i, y, width, height));
+        }
+        return new CharacterAnimation(frames, term);
+    }
+
+    /**
+     * return index <br/>
+     * 0 : STATIC_DOWN <br/>
+     * 1 : STATIC_RIGHT <br/>
+     * 2 : STATIC_LEFT <br/>
+     * 3 : STATIC_UP <br/>
+     * 4 : MOVING_DOWN <br/>
+     * 5 : MOVING_RIGHT <br/>
+     * 6 : MOVING_LEFT <br/>
+     * 7 : MOVING_UP
+     */
+    public static List<CharacterAnimation> autoGenerate(Texture spriteSheet, int width, int height, long term) {
+        List<CharacterAnimation> result = new ArrayList<>();
+        int c = 1;
+        for (int y = 0; y <= 6 * height; y += height) {
+            result.add(generate(spriteSheet, y, width, height, term));
+
+            // STATIC_RIGHT, MOVING_RIGHT일 때, 좌우반전해서 LEFT도 생성
+            if (c == 2 || c == 5) {
+                // LEFT (Manual Generate)
+                List<TextureRegion> frames = new ArrayList<>();
+                for (int j = 0; j < 3; j++) {
+                    TextureRegion frame = new TextureRegion(spriteSheet, width * j, y, width, height);
+                    frame.flip(true, false);
+                    frames.add(frame);
+                }
+                result.add(new CharacterAnimation(frames, term));
+            }
+            c++;
+        }
+        return result;
     }
 
     /**

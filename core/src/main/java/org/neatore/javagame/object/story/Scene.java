@@ -3,6 +3,7 @@ package org.neatore.javagame.object.story;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import org.jetbrains.annotations.Nullable;
 import org.neatore.javagame.JavaGame;
 import org.neatore.javagame.object.map.GameMap;
 
@@ -19,10 +20,10 @@ public abstract class Scene {
         map.render(JavaGame.camera);
     }
 
-    public void changeMapDirectly(GameMap map) {
+    public void changeMapDirectly(GameMap map, @Nullable String targetObj) {
         if (this.map != null) this.map.dispose();
         this.map = map;
-        map.initializePlayerPosition();
+        map.initializePlayerPosition(targetObj);
         map.renderer.setView(JavaGame.camera);
     }
 

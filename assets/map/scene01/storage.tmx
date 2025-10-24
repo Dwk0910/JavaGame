@@ -24,7 +24,7 @@
   <object id="5" name="block" x="96" y="768" width="288" height="96"/>
   <object id="6" name="block" x="768" y="768" width="192" height="96"/>
   <object id="7" name="teleport" x="0" y="288" width="48" height="287"/>
-  <object id="8" name="playerstart" x="72.5" y="454.5">
+  <object id="8" name="playerstart" x="147.5" y="453.5">
    <point/>
   </object>
  </objectgroup>
